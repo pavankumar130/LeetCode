@@ -16,7 +16,19 @@ int solve(int ind, int pre, vector<int>&nums, int n,vector<vector<int>>&dp){
 }
     int lengthOfLIS(vector<int>& nums) {
         int n=nums.size();
-        vector<vector<int>>dp(n,vector<int>(n+1,-1));
-        return solve(0,-1,nums,n,dp);
+        // vector<vector<int>>dp(n,vector<int>(n+1,-1));
+        // return solve(0,-1,nums,n,dp);
+      vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+      for(int ind = n-1; ind >= 0; ind--){
+          for(int pre = ind-1; pre >=-1; pre--){
+                int np = dp[ind+1][pre+1];
+                int p = 0;
+                if(pre == -1 || nums[ind] > nums[pre]){
+                    p=1+dp[ind+1][ind+1];
+                }
+             dp[ind][pre+1] = max(np,p);
+          }
+      }
+      return dp[0][0];
     }
 };
