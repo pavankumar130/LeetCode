@@ -20,7 +20,7 @@ void solve(vector<int>temp,vector<vector<int>>&res, vector<int>&dp,int n, int k,
         vector<vector<int>>res;
         vector<int>temp;
         solve(temp,res,dp,n,k,1);
-        sort(res.begin(),res.end());
+        // sort(res.begin(),res.end());
         return res;
     }
 };
