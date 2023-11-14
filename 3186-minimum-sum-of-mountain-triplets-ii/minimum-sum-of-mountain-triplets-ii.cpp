@@ -14,7 +14,7 @@ public:
           nextsmaller[n-i-1]=min(nextsmaller[n-i], nums[n-i-1]);
         }
 
-        int res=INT_MAX;
+        int res=1e9;
 
         for(int i=1; i<n-1; i++){
             if( prevsmaller[i] < nums[i] && nextsmaller[i] < nums[i] ){
@@ -25,7 +25,7 @@ public:
             }
         }
 
-        if(res == INT_MAX){
+        if(res == 1e9){
             return -1;
         }
         return res;
