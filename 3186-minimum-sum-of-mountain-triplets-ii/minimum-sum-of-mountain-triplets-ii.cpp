@@ -2,11 +2,10 @@ class Solution {
 public:
     int minimumSum(vector<int>& nums) {
         int n=nums.size();
-        vector<int>nextsmaller(n,0);
-        vector<int>prevsmaller(n,0);
+        vector<int>nextsmaller(n);
+        vector<int>prevsmaller(n);
 
         nextsmaller[n-1]=nums[n-1];
-
         prevsmaller[0]=nums[0];
 
         for(int i=1; i<n-1; i++){
