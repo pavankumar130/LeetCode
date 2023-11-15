@@ -1,8 +1,10 @@
 class Solution {
 public:
     int distinctSubseqII(string s) {
+
         int n=s.length();
         int mod=1e9+7;
+
         vector<long long>dp(n+1);
         dp[0]=1;
 
@@ -15,6 +17,7 @@ public:
             if(mp[s[i-1]-'a'] != -1){
                 dp[i]=(dp[i]- dp[mp[s[i-1]-'a']-1]+ mod)%mod;
             }
+            
             mp[s[i-1]-'a']= i;
         }
 
