@@ -1,20 +1,20 @@
 class Solution {
 public:
     int countCharacters(vector<string>& words, string chars) {
-        unordered_map<char,int>mp;
+        vector<int>mp(26,0);
         for(int i=0; i<chars.length(); i++){
-            mp[chars[i]]++;
+            mp[chars[i]-'a']++;
         }
         
         int ans=0;
         for(int i=0; i<words.size(); i++){
-            unordered_map<char,int>temp;
+            vector<int>temp(26,0);
             for(char it:words[i]){
-                temp[it]++;
+                temp[it-'a']++;
             }
             bool have = true;
-            for(auto it:temp){
-               if(mp.find(it.first) == mp.end() || mp[it.first] < it.second){
+            for(int i=0; i<26; i++){
+               if(mp[i] < temp[i]){
                    have = false;
                    break;
                }
