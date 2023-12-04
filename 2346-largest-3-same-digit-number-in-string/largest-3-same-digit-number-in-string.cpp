@@ -12,10 +12,7 @@ public:
         if(res == -1){
             return "";
         }
-        string str;
-        str.push_back(res+'0');
-        str.push_back(res+'0');
-        str.push_back(res+'0');
-        return str;
+        string str=to_string(res);
+        return str+str+str;
     }
 };
