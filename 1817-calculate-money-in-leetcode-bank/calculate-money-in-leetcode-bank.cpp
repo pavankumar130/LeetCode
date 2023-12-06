@@ -10,7 +10,6 @@ public:
                 count++;
                 money = count;
             }
-            cout<<money<<" ";
             res+=money;
             money++;
         }
