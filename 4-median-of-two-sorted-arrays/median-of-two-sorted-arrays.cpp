@@ -1,36 +1,54 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& a, vector<int>& b) {
-        vector<int>res;
-
-            int n=a.size();
-            int m=b.size();
-
-            int i=0,j=0;
-            while(i<n && j<m){
-                if(a[i] < b[j]){
-                    res.push_back(a[i]);
-                    i++;
-                }
-                else{
-                    res.push_back(b[j]);
-                    j++;
-                }
-            }
-
-            while(i<n){
-                res.push_back(a[i]);
-                i++;
-            }
-            while(j<m){
-                res.push_back(b[j]);
-                j++;
-            }
-        int size = res.size();
-        int mid = size/2;
-        if(size%2 == 0){
-            return (res[mid]+res[mid-1])/2.0;
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int n1 = nums1.size();
+        int n2 = nums2.size();
+        // Make nums1 small always
+        if(n1 > n2){
+            return findMedianSortedArrays(nums2,nums1);
         }
-        return res[mid];
+
+        int low = 0, high = n1;
+        // max elements in one side
+        int left = (n1+n2+1)/2;
+        // total elements in both vectors
+        int n = (n1+n2);
+
+        while(low <= high){
+            int mid1 = (low+high)/2;
+            int mid2 = left - mid1;
+
+            int l1 = INT_MIN, l2 = INT_MIN;
+            int r1 = INT_MAX, r2 = INT_MAX;
+            // Checking wether r1 & r2 is in bound or not
+            if(mid1 < n1){
+                r1 = nums1[mid1];
+            }
+            if(mid2 < n2){
+                r2 = nums2[mid2];
+            }
+            // checking wether l2 & l2 in bound or not
+            if(mid1-1 >= 0){
+                l1 = nums1[mid1-1];
+            }
+            if(mid2-1 >= 0){
+                l2 = nums2[mid2-1];
+            }
+
+            // checking the conditions
+            if(l1 <= r2 && l2 <= r1){
+                if(n%2 != 0){
+                    return max(l1,l2);
+                }
+                return ( max(l1,l2) + min(r1,r2) )/2.0;
+            }
+            else if( l1 > r2 ){
+                high = mid1-1;
+            }
+            else{
+                low = mid1+1;
+            }
+        }
+        return 0;
     }
 };
