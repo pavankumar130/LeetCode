@@ -14,6 +14,7 @@ public:
             }
             else{  // coins[id] > t 
                 if(prefix >= t){
+                    t=prefix;
                     continue;
                 }
                 prefix+=t; // i want to add that coin to achive that target
