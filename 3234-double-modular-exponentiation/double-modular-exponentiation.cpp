@@ -5,14 +5,14 @@ public:
         vector<int>res;
 
         for(int i=0; i<n; i++){
-            int m=variables[i][0];
+            int a=variables[i][0];
             int b=variables[i][1];
             int c=variables[i][2];
             int d=variables[i][3];
 
             int n1 = 1;
             for(int j=0; j<b; j++){
-                n1 = (n1*m)%10;
+                n1 = (n1*a)%10;
             }
 
             int n2=1;
