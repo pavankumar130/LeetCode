@@ -3,7 +3,6 @@ public:
     int minPatches(vector<int>& nums, int n) {
         
         long long prefix =0;
-        sort(nums.begin(),nums.end());
         int size = nums.size(),res = 0, id = 0;
 
         for(long long t=1; t<=n; t++){
