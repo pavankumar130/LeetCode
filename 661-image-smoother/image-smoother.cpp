@@ -21,9 +21,7 @@ public:
                         avg+=img[x][y];
                     }
                 }
-
-                int num = avg/cnt;
-                res[i][j]=num;
+                res[i][j] = avg/cnt;
             }
         }
         return res;
