@@ -38,35 +38,29 @@ class Solution {
             return maxi;
         }
     };
-    static bool comp(vector<int>a,vector<int>b){
-        return (a[1]<b[1]);
-    }
 public:
+   typedef pair<int, pair<int,int>> ppi;
     vector<int> maximizeXor(vector<int>& arr, vector<vector<int>>& queries) {
-        sort(arr.begin(),arr.end());
-        Trie trie;
+        vector<ppi> offlineQueries;
+        Trie T;
+        vector<int> output(queries.size(),0);
+        //load all the queries into offline queries and sort the function
+        for (int i = 0; i < queries.size(); i++){
+            offlineQueries.push_back({queries[i][1],{queries[i][0],i}});
+        }
+        sort(offlineQueries.begin(),offlineQueries.end());
+        sort(arr.begin(),arr.end()); //sort the array
+        int iterator = 0;
+        int i = 0;
+        for (auto it: offlineQueries) {
+            while (i < arr.size() && arr[i] <= it.first) {
+              T.put(arr[i]);
+              i++;
+            }
+            if (i != 0) output[it.second.second] = T.getMaxi(it.second.first);
+            else output[it.second.second] = -1;
+        }
         
-        int j=0;
-        for(int i=0; i<queries.size(); i++){
-            queries[i].push_back(i);
-        }
-        sort(queries.begin(),queries.end(),comp);
-        vector<int>res(queries.size());
-        for(int i=0; i<queries.size(); i++){
-            int x = queries[i][0];
-            int idx = queries[i][2];
-            int l = queries[i][1];
-
-            while(j<arr.size() && arr[j]<=l){
-                trie.put(arr[j++]);
-            }
-            if(j == 0){
-                res[idx]=-1;
-            }
-            else{
-                res[idx]=trie.getMaxi(x);
-            }
-        }
-      return res;
+        return output;
     }
 };
