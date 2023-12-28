@@ -1,42 +1,33 @@
-int dp[101][27][101][101] ; 
+int dp[101][27][101][101];
 class Solution {
-public:
-
-    int getLengthOfOptimalCompression(string s, int k) {
-        int n = s.size() ;
-        memset(dp , -1, sizeof(dp)) ;
-        return solveMem(s, 0, 26, k, 0) ;
-
-    }
-private:
-// Memorisation
-    int solveMem(string& s, int index, int prev, int k, int count){
-        if(k < 0) return 1e9 ;
-
-        if(index >= s.size()){
-           return 0 ;
+    int solve(string &s, int ind, int prev, int cnt, int k){
+        if(k < 0){
+            return 1e9;
+        }
+        if(ind == s.length()){
+            return 0;
         }
 
-        if(dp[index][prev][k][count] != -1){
-            return dp[index][prev][k][count] ;
+        if(dp[ind][prev][cnt][k] != -1){
+            return dp[ind][prev][cnt][k];
         }
 
-        int acc = INT_MAX ;
-        int del = solveMem(s, index+1, prev, k-1, count) ; 
+        int del = solve(s,ind+1,prev,cnt,k-1);
 
-        if(prev + 'a' == s[index]){
-            if(count == 1 || count == 9 || count == 99){
-                acc =  1 + solveMem(s, index+1, prev, k, count+1) ; 
-            }
-            else{
-                acc =  solveMem(s, index+1, prev, k, count+1) ; 
-            }
+        int acc = 0;
+        if(s[ind] == prev+'a'){
+            acc =solve(s,ind+1,prev,cnt+1,k) + (cnt==1 || cnt == 9 || cnt == 99);
         }
         else{
-            acc =  1 + solveMem(s, index+1, s[index] - 'a', k, 1) ; 
+            acc = 1 + solve(s,ind+1,s[ind]-'a',1,k);
         }
 
-        
-        return dp[index][prev][k][count] = min(del, acc) ;
+        return dp[ind][prev][cnt][k] = min(acc,del);
+    }
+public:
+    int getLengthOfOptimalCompression(string s, int k) {
+        int n = s.length();
+        memset(dp,-1,sizeof(dp));
+        return solve(s,0,26,0,k);
     }
 };
