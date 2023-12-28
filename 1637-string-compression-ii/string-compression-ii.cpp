@@ -1,9 +1,6 @@
 int dp[101][27][101][101];
 class Solution {
     int solve(string &s, int ind, int prev, int cnt, int k){
-        if(k < 0){
-            return 1e9;
-        }
         if(ind == s.length()){
             return 0;
         }
@@ -12,7 +9,10 @@ class Solution {
             return dp[ind][prev][cnt][k];
         }
 
-        int del = solve(s,ind+1,prev,cnt,k-1);
+        int del =INT_MAX;
+        if( k > 0 ){
+            del = solve(s,ind+1,prev,cnt,k-1);
+        }
 
         int acc = 0;
         if(s[ind] == prev+'a'){
