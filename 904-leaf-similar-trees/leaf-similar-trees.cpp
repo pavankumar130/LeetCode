@@ -25,16 +25,6 @@ public:
         vector<int>arr1,arr2;
         solve(root1,arr1);
         solve(root2,arr2);
-
-        if(arr1.size() != arr2.size()){
-            return false;
-        }
-
-        for(int i = 0; i < arr1.size(); i++){
-            if(arr1[i] != arr2[i]){
-                return false;
-            }
-        }
-        return true;
+        return arr1 == arr2;
     }
 };
