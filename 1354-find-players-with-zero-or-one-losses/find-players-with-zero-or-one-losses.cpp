@@ -2,9 +2,9 @@ class Solution {
 public:
     vector<vector<int>> findWinners(vector<vector<int>>& matches) {
         map<int, int>mp;
-        set<int>win,los;
+        vector<int>win,los;
+
         for(int i = 0; i < matches.size() ; i++){
-            int w = matches[i][0];
             int l = matches[i][1];
             mp[l]++;
         }
@@ -14,22 +14,17 @@ public:
             int l = matches[i][1];
 
             if(mp.find(w) == mp.end()){
-                win.insert(w);
+                win.push_back(w);
+                mp[w] = 2;
             }
             if( mp[l] == 1 ){
-                los.insert(l);
+                los.push_back(l);
             }
         }
 
-        vector<int>winner,loser;
+        sort(win.begin(),win.end());
+        sort(los.begin(),los.end());
 
-        for(auto it:win){
-            winner.push_back(it);
-        }
-        for(auto it:los){
-            loser.push_back(it);
-        }
-
-        return {winner,loser};
+        return {win,los};
     }
 };
