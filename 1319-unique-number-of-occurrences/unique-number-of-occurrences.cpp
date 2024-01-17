@@ -7,16 +7,12 @@ public:
             mp[arr[i]]++;
         }
 
-        vector<int>temp;
+        set<int>st;
         for(auto it:mp){
-            temp.push_back(it.second);
-        }
-        sort(temp.begin(),temp.end());
-
-        for(int i = 0; i < temp.size()-1; i++){
-            if(temp[i] == temp[i+1]){
+            if(st.find(it.second) != st.end()){
                 return false;
             }
+            st.insert(it.second);
         }
         return true;
     }
