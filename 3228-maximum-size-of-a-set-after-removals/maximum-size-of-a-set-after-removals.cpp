@@ -3,7 +3,7 @@ public:
     int maximumSetSize(vector<int>& nums1, vector<int>& nums2) {
         int n = nums1.size();
 
-        set<int>s1,s2,common;
+        unordered_set<int>s1,s2,common;
 
         for(int i = 0; i < n; i++){
             s1.insert(nums1[i]);
