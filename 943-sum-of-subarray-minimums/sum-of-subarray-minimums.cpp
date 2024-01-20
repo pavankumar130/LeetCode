@@ -1,34 +1,41 @@
 class Solution {
 public:
     int sumSubarrayMins(vector<int>& arr) {
-        int n=arr.size();
+        int n = arr.size();
+
         stack<pair<int,int>>st;
-        stack<pair<int,int>>st1;
         vector<int>left(n);
         vector<int>right(n);
-        int mode=1e9+7;
-        int count=0;
-        for(int i=0;i<n;i++){
-           count=1;
-           while(!st.empty() && st.top().first > arr[i]){
-               count+=st.top().second;
-               st.pop();
-           } 
-           st.push({arr[i],count});
-           left[i]=count;
-        }
-        for(int i=n-1;i>=0;i--){
-            count=1;
-            while(!st1.empty() && st1.top().first >= arr[i]){
-                count+=st1.top().second;
-                st1.pop();
+        int mod = 1e9+7;
+        int cnt = 0;
+        for(int i = 0; i < n; i++){
+            cnt = 1;
+            while(!st.empty() && st.top().first > arr[i]){
+                cnt += st.top().second;
+                st.pop();
             }
-            st1.push({arr[i],count});
-            right[i]=count;
+            st.push({arr[i],cnt});
+            left[i] = cnt;
         }
-        int sum=0;
-        for(int i=0;i<n;i++){
-            sum=(sum+((long long)arr[i]*left[i]*right[i])%mode)%mode;
+
+        while(!st.empty()){
+            st.pop();
+        }
+
+        for(int i = n-1; i >= 0; i--){
+            cnt = 1;
+            while(!st.empty() && st.top().first >= arr[i]){
+                cnt += st.top().second;
+                st.pop();
+            }
+            st.push({arr[i],cnt});
+            right[i] = cnt;
+        }
+
+        long long sum = 0;
+
+        for(int i = 0; i < n; i++){
+            sum = (sum + (long long)arr[i]*left[i]*right[i]%mod)%mod;
         }
         return sum;
     }
