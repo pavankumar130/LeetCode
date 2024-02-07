@@ -23,7 +23,7 @@ public:
         string res = "";
         for(int i = 0; i < arr.size(); i++){
             for(int j = 0; j < arr[i].first; j++){
-                res += arr[i].second;
+                res . push_back(arr[i].second);
             }
         }
         return res;
