@@ -1,43 +1,54 @@
 class Solution {
-    int n;
-    vector<int>bit;
+    void merge(vector<int>&res, vector<pair<int,int>>&arr, int low, int mid, int high){
+        vector<pair<int,int>>temp(high - low + 1);
 
-    void update(int val, int id){
-        while(id <= n){
-            bit[id] += val;
+        int i = low, j = mid + 1;
+        int k = 0;
 
-            id += (id & - id);
+        while(i <= mid && j <= high){
+            if(arr[i].first <= arr[j].first){
+                temp[k++] = arr[j++];
+            }
+            else{
+                res[arr[i].second] += (high - j +1);
+                temp[k++] = arr[i++];
+            }
+        }
+
+        while(i <= mid){
+            temp[k++] = arr[i++];
+        }
+
+        while(j <= high){
+            temp[k++] = arr[j++];
+        }
+
+        for(int i = low; i <= high; i++){
+            arr[i] = temp[i - low];
         }
     }
-
-    int query(int id){
-        int res = 0;
-        while(id > 0){
-            res += bit[id];
-            id -= (id & -id);
+    void mergesort(vector<int>&res, vector<pair<int,int>>&arr, int low, int high){
+        if(low >= high){
+            return;
         }
-        return res;
+
+        int mid = (low + high)/2;
+        mergesort(res, arr, low, mid);
+        mergesort(res, arr, mid+1, high);
+        merge(res, arr, low, mid, high);
     }
 public:
     vector<int> countSmaller(vector<int>& nums) {
-        n = nums.size();
-        bit = vector<int>(n+1, 0);
+        int n = nums.size();
 
         vector<pair<int,int>>arr;
 
-        for(int i = 0; i < nums.size(); i++){
+        for(int i = 0; i < n; i++){
             arr.push_back({nums[i], i});
         }
 
-        sort(arr.begin(),arr.end());
-
         vector<int>res(n,0);
-
-        for(auto it: arr){
-            update(1, it.second + 1);
-            res[it.second] = query(n) - query(it.second + 1);
-        }
-
+        mergesort(res, arr, 0, n-1);
         return res;
     }
 };
