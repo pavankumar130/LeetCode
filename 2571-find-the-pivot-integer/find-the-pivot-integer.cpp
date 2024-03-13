@@ -6,18 +6,14 @@ public:
         }
 
         int res = -1;
+        int total = (n *(n+1))/2;
 
         for(int i = 1; i <= n; i++){
-            int sum1 = 0;
+            int sum = 0;
             for(int j = 1; j <= i; j++){
-                sum1 += j;
+                sum += j;
             }
-            int sum2 = 0;
-            for(int j = i; j <= n; j++){
-                sum2 += j;
-            }
-
-            if(sum1 == sum2){
+            if(sum == (total - sum + i)){
                 return i;
             }
         }
