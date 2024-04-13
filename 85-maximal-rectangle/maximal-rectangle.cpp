@@ -34,10 +34,13 @@ void findleft(vector<int>&arr,vector<int>&left){
 }
 int solve(vector<int>&arr){
 	int n=arr.size();
+
 	vector<int>left(n,0);
 	vector<int>right(n);
+
 	findleft(arr,left);
 	findright(arr,right);
+
 	int res=0;
 	for(int i=0;i<n;i++){
 		int num =((right[i]-left[i]+1)*arr[i]);
@@ -59,9 +62,11 @@ int solve(vector<int>&arr){
                     arr[j]=0;
                 }
             }
+            
             int num=solve(arr);
             res=max(res,num);
         }
+        
         return res;
     }
 };
