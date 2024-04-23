@@ -6,7 +6,7 @@ public:
         }
 
         vector<int>adj[n];
-        vector<int>degree(n, 0);
+        vector<int>degree(n, 0), ans;
 
         for(int i = 0; i < edges.size(); i++){
             int u = edges[i][0];
@@ -24,30 +24,28 @@ public:
         for(int i = 0; i < n; i++){
             if(degree[i] == 1){
                 q.push(i);
+                degree[i]--;
             }
         }
 
-        int rem = n;
-
-        while(rem > 2){
+        while(!q.empty()){
             int size = q.size();
-            rem -= size;
+            ans.clear();
+
             for(int i = 0; i < size; i++){
                 int node = q.front();
                 q.pop();
-                for(int it: adj[node]){
-                    if(--degree[it] == 1){
+                ans.push_back(node);
+
+                for(auto it: adj[node]){
+                    degree[it]--;
+                    if(degree[it] == 1){
                         q.push(it);
                     }
                 }
             }
         }
 
-        vector<int>res;
-        while(!q.empty()){
-            res.push_back(q.front());
-            q.pop();
-        }
-        return res;
+        return ans;
     }
 };
