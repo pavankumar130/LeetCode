@@ -5,7 +5,7 @@ public:
     KthLargest(int k, vector<int>& nums) {
         this->k = k;
 
-        for(int i=0; i<nums.size(); i++){
+        for(int i = 0; i < nums.size(); i++){
             pq.push(nums[i]);
             if(pq.size() > k){
                 pq.pop();
@@ -21,9 +21,3 @@ public:
         return pq.top();
     }
 };
-
-/**
- * Your KthLargest object will be instantiated and called as such:
- * KthLargest* obj = new KthLargest(k, nums);
- * int param_1 = obj->add(val);
- */
