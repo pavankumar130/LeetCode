@@ -6,18 +6,7 @@ public:
 
         for(int i = 0; i < n; i++){
             if(nums[i] > 0){
-                int num = nums[i];
-                int cnt = 0;
-                int ind = i;
-                while(cnt != num){
-                    ind++;
-                    cnt++;
-                    if(ind == n){
-                        ind = 0;
-                    }
-
-                    res[i] = nums[ind];
-                }
+                res[i] = nums[(i + nums[i])%n];
             }
             else if(nums[i] < 0){
                 int num = abs(nums[i]);
