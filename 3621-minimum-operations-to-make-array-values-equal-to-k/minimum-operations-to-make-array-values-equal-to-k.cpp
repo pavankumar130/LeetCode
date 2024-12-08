@@ -1,7 +1,7 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int k) {
-        set<int>st;
+        map<int, int>mp;
 
         for(auto it: nums){
             if(it < k){
@@ -10,9 +10,9 @@ public:
             if(it == k){
                 continue;
             }
-            st.insert(it);
+            mp[it]++;
         }
 
-        return st.size();
+        return mp.size();
     }
 };
