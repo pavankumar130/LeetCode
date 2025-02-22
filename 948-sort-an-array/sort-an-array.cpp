@@ -1,47 +1,52 @@
 class Solution {
-public:
-    void merge(vector<int>&arr, int l, int mid, int r){
-        int i = l;
-        int j = mid+1;
+    void mergesort(int s, int m, int e, vector<int>&nums){
         vector<int>temp;
-        while(i <= mid && j <= r){
-            if(arr[i] <= arr[j]){
-                temp.push_back(arr[i]);
+
+        int i = s;
+        int j = m + 1;
+
+        while(i <= m && j <= e){
+            if(nums[i] < nums[j]){
+                temp.push_back(nums[i]);
                 i++;
             }
             else{
-                temp.push_back(arr[j]);
+                temp.push_back(nums[j]);
                 j++;
             }
         }
-        while(i <= mid){
-            temp.push_back(arr[i]);
+
+        while(i <= m){
+            temp.push_back(nums[i]);
             i++;
         }
-        while(j <= r){
-            temp.push_back(arr[j]);
+        while(j <= e){
+            temp.push_back(nums[j]);
             j++;
         }
 
-        int ind=0;
-        for(int i = l;i <= r; i++){
-            arr[i] = temp[ind];
-            ind++;
+        int k = 0;
+        for(int i = s; i <= e; i++){
+            nums[i] = temp[k];
+            k++;
         }
-        temp.clear();
+
     }
-    void mergesort(vector<int>&arr, int l, int r){
-        if( l == r){
+
+    void merge(int s, int e, vector<int>&nums){
+        if(s >= e){
             return;
         }
-        int mid = (l + r)/2;
-        mergesort(arr, l, mid);
-        mergesort(arr, mid+1, r);
-        merge(arr, l, mid, r);
+
+        int m = (s + e) / 2;
+
+        merge(s, m, nums);
+        merge(m + 1, e, nums);
+        mergesort(s, m, e, nums);
     }
+public:
     vector<int> sortArray(vector<int>& nums) {
-        int n = nums.size();
-        mergesort(nums, 0, n-1);
+        merge(0, nums.size()-1, nums);
         return nums;
     }
 };
