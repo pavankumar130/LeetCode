@@ -1,46 +1,58 @@
 class Solution {
-    bool check(vector<vector<int>>& mat, int i, int j, int k, int threshold){
-        for(int row = i; row < i + k; row++){
-            for(int col = j; col < j + k; col++){
-                threshold -= mat[row][col];
+    bool check(vector<vector<int>>& prefix, int i, int j, int k, int threshold){
+        int n = prefix.size() - 1;
+        int m = prefix[0].size() - 1;
 
-                if(threshold < 0){
-                    return false;
-                }
-            }
+        if(i + k > n || j + k > m){
+            return false;
         }
 
-        return true;
+        int sum = 0;
+        sum += prefix[i + k][j + k];
+        sum -= prefix[i + k][j - 1];
+        sum -= prefix[i - 1][j + k];
+        sum += prefix[i - 1][j - 1];
+
+        return sum <= threshold;
     }
 public:
     int maxSideLength(vector<vector<int>>& mat, int threshold) {
-        // optimization - 1.
+        // optimization - 2 prefixsum.
         int n = mat.size();
         int m = mat[0].size();
 
-        int low = 0;
-        int high = min(m, n);
+        vector<vector<int>>prefix(n + 1, vector<int>(m + 1, 0));
 
-        while(low <= high){
-            int mid = (low + high) / 2;
-            bool found = false;
-
-            for(int i = 0; i <= n - mid; i++){
-                for(int j = 0; j <= m - mid; j++){
-                    if(check(mat, i, j, mid, threshold)){
-                        found = true;
-                    }
-                }
-            }
-
-            if(found){
-                low = mid + 1;
-            }
-            else{
-                high = mid - 1;
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= m; j++){
+                prefix[i][j] = mat[i - 1][j - 1];
+                prefix[i][j] += prefix[i - 1][j];
+                prefix[i][j] += prefix[i][j -1];
+                prefix[i][j] -= prefix[i - 1][j - 1];
             }
         }
 
-        return high;
+        int maxi = 0;
+
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= m; j++){
+                int low = 0;
+                int high = min(m, n);
+
+                while(low <= high){
+                    int mid = (low + high) / 2;
+
+                    if(check(prefix, i, j, mid, threshold)){
+                        low = mid + 1;
+                        maxi = max(maxi, mid + 1);
+                    }
+                    else{
+                        high = mid - 1;
+                    }
+                }
+            }
+        }
+
+        return maxi;
     }
 };
