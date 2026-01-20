@@ -6,7 +6,7 @@ public:
 
         for(int i = 0; i < n; i++){
             for(int j = 1; j <= nums[i] - 1; j++){
-                if((j | j + 1) == nums[i]){
+                if((j | (j + 1)) == nums[i]){
                     res[i] = j;
                     break;
                 }
