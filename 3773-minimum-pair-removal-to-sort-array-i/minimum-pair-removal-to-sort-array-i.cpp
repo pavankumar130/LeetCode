@@ -19,7 +19,7 @@ public:
             vector<int>arr;
             for(int i = 0; i < nums.size(); i++){
                 if(ind == i){
-                    arr.push_back(mini);
+                    arr.push_back(nums[i] + nums[i + 1]);
                     i++;
                 }
                 else{
