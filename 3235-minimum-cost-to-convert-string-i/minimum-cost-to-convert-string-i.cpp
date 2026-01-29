@@ -1,36 +1,59 @@
 class Solution {
-public:
-    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
-        
-        int n = original.size();
-        
-        vector<vector<long long>>graph(26,vector<long long>(26,1e9));
-        
-        for(int i=0; i<n; i++){
-            graph[original[i]-'a'][changed[i]-'a'] = min(graph[original[i]-'a'][changed[i]-'a'],(long long)cost[i]);
-        }
-        
-        for(int k = 0; k < 26; k++){
-            for(int i = 0; i< 26; i++){
-                for(int j = 0; j < 26; j++){
-                    if( graph[i][j] > (long long)(graph[i][k]+graph[k][j] ) ){
-                        graph[i][j] = (long long)(graph[i][k]+graph[k][j]);
-                    }
+    void solve(int source, vector<pair<int,int>> adj[], vector<vector<int>>&dis){
+        dis[source][source] = 0;
+
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>>q;
+        q.push({0, source});
+
+        while(q.size()){
+            int node = q.top().second;
+            q.pop();
+
+            for(auto it: adj[node]){
+                int new_node = it.second;
+                int weight = it.first;
+
+                if(dis[source][new_node] > dis[source][node] + weight){
+                    dis[source][new_node] = dis[source][node] + weight;
+                    q.push({dis[source][new_node], new_node});
                 }
             }
         }
-        
-        long long res = 0;
-        for(int i=0; i<source.length(); i++){
-            int a = source[i]-'a';
-            int b = target[i]-'a';
-            if(a != b){
-                if(graph[a][b] == 1e9){
-                    return -1;
-                }  
-                res = (long long)(res + graph[a][b]);
+    }
+public:
+    long long minimumCost(string source, string target, vector<char>& original, vector<char>& changed, vector<int>& cost) {
+        vector<pair<int,int>>adj[26];
+
+        for(int i = 0; i < original.size(); i++){
+            int u = original[i] - 'a';
+            int v = changed[i] - 'a';
+            adj[u].push_back({cost[i], v});
+        }
+
+        vector<vector<int>>dis(26, vector<int>(26, 1e9));
+
+        for(int i = 0; i < 26; i++){
+            solve(i, adj, dis);
+        }
+
+        long long cst = 0;
+
+        for(int i = 0; i < source.size(); i++){
+            if(source[i] == target[i]){
+                continue;
+            }
+
+            int u = source[i] - 'a';
+            int v = target[i] - 'a';
+
+            if(dis[u][v] != 1e9){
+                cst += dis[u][v];
+            }
+            else{
+                return -1;
             }
         }
-        return res;
+
+        return cst;
     }
 };
