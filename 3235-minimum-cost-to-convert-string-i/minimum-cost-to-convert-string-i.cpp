@@ -39,10 +39,6 @@ public:
         long long cst = 0;
 
         for(int i = 0; i < source.size(); i++){
-            if(source[i] == target[i]){
-                continue;
-            }
-
             int u = source[i] - 'a';
             int v = target[i] - 'a';
 
