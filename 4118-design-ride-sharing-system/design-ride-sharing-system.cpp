@@ -40,6 +40,7 @@ public:
                 rider.pop();
             }
             rider = q;
+            st.erase(riderId);
         }
     }
 };
