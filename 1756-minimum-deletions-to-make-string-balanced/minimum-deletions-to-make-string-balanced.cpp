@@ -1,20 +1,26 @@
 class Solution {
 public:
     int minimumDeletions(string s) {
-        int n = s.length();
-        stack<char> charStack;
-        int deleteCount = 0;
+        int n = s.size();
+        vector<int>counta(n + 1, 0);
 
-        for (int i = 0; i < n; i++) {
-            if (!charStack.empty() && charStack.top() == 'b' && s[i] == 'a') {
-                charStack.pop();  
-                deleteCount++;    
-            } 
-            else {
-                charStack.push(s[i]);  
+        for(int i = 0; i < n; i++){
+            if(s[i] == 'a'){
+                counta[i + 1] = 1; 
             }
+
+            counta[i + 1] += counta[i];
         }
 
-        return deleteCount;
+        int mini = 1e9;
+
+        for(int i = 0; i <= n; i++){
+            int leftb = i - counta[i];
+            int righta = counta[n] - counta[i];
+
+            mini = min(mini, (leftb + righta));
+        }
+
+        return mini;
     }
 };
