@@ -10,36 +10,32 @@
  * };
  */
 class Solution {
-    vector<int>arr;
-    void inorder(TreeNode* root){
+    void Inorder(TreeNode* root, vector<int>&arr){
         if(root == NULL){
             return;
         }
-
-        inorder(root->left);
+        Inorder(root->left, arr);
         arr.push_back(root->val);
-        inorder(root->right);
+        Inorder(root->right, arr);
     }
 
-    TreeNode* solve(int start, int end){
-        if(start > end){
+    TreeNode* CreateBalanceBST(vector<int>&arr, int l, int r){
+        if(l > r){
             return NULL;
         }
 
-        int mid = (start + end)/2;
-
+        int mid = (l + r) / 2;
         TreeNode* root = new TreeNode(arr[mid]);
-        root -> left = solve(start, mid - 1);
-        root -> right = solve(mid + 1, end);
-
+        root->left = CreateBalanceBST(arr, l, mid - 1);
+        root->right = CreateBalanceBST(arr, mid + 1, r);
         return root;
-    }    
-
+    }
 public:
     TreeNode* balanceBST(TreeNode* root) {
-        inorder(root);
+        vector<int>arr;
+        Inorder(root, arr);
 
-        int n = arr.size();
-        return solve(0, n-1);
+        TreeNode* res = CreateBalanceBST(arr, 0, arr.size() - 1);
+        return res;
     }
 };
