@@ -1,44 +1,38 @@
+// optimal solution
 class Solution {
 public:
     int minSwaps(vector<vector<int>>& grid) {
-        int cnt = 0;
         int n = grid.size();
+        vector<int>zeros(n);
 
-        for(int i = 0; i < n - 1; i++){
-            bool flag = false;
-            for(int j = i + 1; j < n; j++){
-                if(grid[i][j]){
-                    flag = true;
-                    break;
-                }
+        for(int i = 0; i < n; i++){
+            int count = 0;
+            for(int j = n - 1; j >= 0 && grid[i][j] == 0; j--){
+                count++;
+            }
+            zeros[i] = count;
+        }
+
+        int swaps = 0;
+
+        for(int i = 0; i < n; i++){
+            int req = n - i - 1;
+            int j = i;
+            while(j < n && zeros[j] < req){
+                j++;
             }
 
-            if(flag){
-                bool notpossible = true;
-                for(int k = i + 1; k < n; k++){
-                    bool flag2 = false;
-                    for(int l = i + 1; l < n; l++){
-                        if(grid[k][l]){
-                            flag2 = true;
-                            break;
-                        }
-                    }
+            if(j == n){
+                return -1;
+            }
 
-                    if(!flag2){
-                        for(int p = k; p >= i + 1; p--){
-                            swap(grid[p], grid[p - 1]);
-                            notpossible = false;
-                            cnt++;
-                        }
-                        break;
-                    }
-                }
-                if(notpossible){
-                    return -1;
-                }
+            while(j > i){
+                swap(zeros[j], zeros[j - 1]);
+                swaps++;
+                j--;
             }
         }
 
-        return cnt;
+        return swaps;
     }
 };
