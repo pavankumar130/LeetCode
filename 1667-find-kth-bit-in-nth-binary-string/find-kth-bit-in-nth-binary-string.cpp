@@ -12,18 +12,22 @@ class Solution {
         reverse(str.begin(), str.end());
         return str;
     }
-    string solve(int n){
+    string solve(int n, vector<string>&dp){
         if(n == 1){
             return "0";
         }
 
-        string str = solve(n - 1);
-        return (str + "1" + reverse_invert(str));
+        if(dp[n] != "-1"){
+            return dp[n];
+        }
+
+        string str = solve(n - 1, dp);
+        return dp[n] = (str + "1" + reverse_invert(str));
     }
 public:
     char findKthBit(int n, int k) {
-        
-        string str = solve(n);
+        vector<string>dp(n + 1, "-1");
+        string str = solve(n, dp);
         cout<<str<<endl;
         return str[k - 1];
     }
