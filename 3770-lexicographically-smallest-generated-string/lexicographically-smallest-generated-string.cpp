@@ -1,14 +1,10 @@
 class Solution {
-    bool same(string &word, string &str2, int start, int size){
-        int ind = 0;
-        for(int i = start; i < start + size; i++){
-            if(word[i] != str2[ind]){
+    bool same(string &word, string &str2, int i, int m){
+        for(int j = 0; j < m; j++){
+            if(word[i + j] != str2[j]){
                 return false;
             }
-
-            ind++;
         }
-
         return true;
     }
 public:
